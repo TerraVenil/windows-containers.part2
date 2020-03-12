@@ -17,7 +17,7 @@ namespace RedisIntegrationTests
 
             ISubscriber subscriber = redis.GetSubscriber();
 
-            await subscriber.SubscribeAsync("techtalks:conversations", (channel, message) =>
+            await subscriber.SubscribeAsync("techtalks:conversation", (channel, message) =>
             {
                 messages.Add(message);
             });

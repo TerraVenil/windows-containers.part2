@@ -14,7 +14,7 @@ namespace RedisIntegrationTests.Entrypoint
 
             while(true)
             {
-                await subscriber.PublishAsync("techtalks:conversations", $"Say, hi!");
+                await subscriber.PublishAsync("techtalks:conversation", $"Say, hi!");
 
                 await Task.Delay(TimeSpan.FromSeconds(10));
             }
