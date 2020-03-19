@@ -1,0 +1,79 @@
+[
+  {
+    "name": "${service_name}",
+    "image": "${docker_image}",
+    "cpu": ${docker_cpu_limit},
+    "memory": ${docker_memory_limit},
+    "environment": [
+      {
+        "name": "ENV",
+        "value": "${env}"
+      },
+      {
+        "name": "ASPNETCORE_ENVIRONMENT",
+        "value": "Dev"
+      }
+    ],
+    "portMappings": [
+      {
+        "hostPort": 0,
+        "containerPort": ${container_port},
+        "protocol": "tcp"
+      }
+    ],
+    "secrets": [
+      {
+        "name": "CERTIFICATE_PART1",
+        "valueFrom": "path1/CERTIFICATE_PART1"
+      },
+      {
+        "name": "CERTIFICATE_PART2",
+        "valueFrom": "path2/CERTIFICATE_PART2"
+      },
+      {
+        "name": "CERTIFICATE_SECURE_PASSWORD",
+        "valueFrom": "path3/CERTIFICATE_SECURE_PASSWORD"
+      }
+    ],
+    "entryPoint": [],
+    "command": [],
+    "volumesFrom": [],
+    "links": ["nyan-mongo"],
+    "mountPoints": [],
+    "essential": true,
+    "dependsOn": [
+      {
+        "containerName": "nyan-mongo",
+        "condition": "HEALTHY"
+      }
+    ]
+  },
+  {
+    "name": "nyan-mongo",
+    "image": "nyan-mongo",
+    "cpu": 256,
+    "memory": 256,
+    "entryPoint": [],
+    "environment": [],
+    "portMappings": [
+      {
+        "containerPort": 27017,
+        "protocol": "tcp"
+      }
+    ],
+    "command": [],
+    "volumesFrom": [],
+    "links": [],
+    "mountPoints": [],
+    "essential": true,
+    "healthcheck": {
+      "command": [
+        "CMD-SHELL",
+        "echo 'db.runCommand(\"ping\").ok' | mongo localhost:27017 --quiet"
+      ],
+      "interval": 5,
+      "timeout": 2,
+      "retries": 5
+    }
+  }
+]
