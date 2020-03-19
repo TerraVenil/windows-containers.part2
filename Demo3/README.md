@@ -1,0 +1,1 @@
+```Set-DefaultAWSRegion eu-west-3```
